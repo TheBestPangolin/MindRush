@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MindRush</string>
+    <string name="mindrush">MindRush</string>
+    <string name="singlegame">Одиночная игра</string>
+    <string name="multiplayer">Многопользовательская игра</string>
+    <string name="settingsanddata">Настройки и информация</string>
+    <string name="the_best_pangolin">Автор: \n The Best Pangolin</string>
+</resources>

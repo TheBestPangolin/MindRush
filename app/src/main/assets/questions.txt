@@ -1,0 +1,12 @@
+{
+"questions": {
+"normal_questions": [
+{"question_title": "placeholder1", "difficulty": 0, "true_answer": "true answer", "answer1": "answer1", "answer2": "answer2", "answer3": "answer3" },
+{"question_title": "placeholder2", "difficulty": 0, "true_answer": "true answer1", "answer1": "answer2", "answer2": "answer3", "answer3": "answer4" },
+{"question_title": "placeholder_just_for_fun", "difficulty": 1, "true_answer": "true answer2", "answer1": "answer34", "answer2": "answer45", "answer3": "answer56" }
+],
+"true_or_false_q": [
+{"question_title": "placeholder_torf", "difficulty": 0, "true_answer": "Правда", "answer1": "Ложь" }
+]
+}
+}
