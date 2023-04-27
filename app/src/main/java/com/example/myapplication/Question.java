@@ -86,7 +86,7 @@ public class Question {
                     this.options[tepr1]=why;
                     this.options[tepr]=why1;
                 }
-//                BufferClass.setOptionsAsTheyWere(temp,index);
+                BufferClass.setOptionsAsTheyWere(temp,index);
             }
         }
     }

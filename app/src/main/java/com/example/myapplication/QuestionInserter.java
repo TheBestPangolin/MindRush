@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestionInserter {
-    static int difficultyCount = BufferClass.getDifficultyCount();
+     int difficultyCount = BufferClass.getDifficultyCount();
 //    static int[] x=new int[difficultyCount];
     Integer lives=3;
     ArrayList<Question> bufferList;
@@ -109,6 +109,7 @@ public class QuestionInserter {
         for (int i = 0; i < BufferClass.getListOfQuestions().size(); i++) {
             if (BufferClass.getListOfQuestions().get(i).getDifficulty().equals(diff)) {
               Question q=BufferClass.getListOfQuestions().get(i);
+              q.mixOptions();
 
                 bufferList.add(q);
                 Log.d("WTF-temp", String.valueOf(bufferList));

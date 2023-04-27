@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.MainActivity.fragment;
+
 import android.util.Log;
 
 import java.util.Timer;
@@ -34,7 +36,8 @@ public class MyTimer {
         public void run() {
             if(running){
                 tempTime--;
-                SecondActivity.setupTimerText(tempTime);
+                fragment.getActivity().runOnUiThread(() -> fragment.setupTimerText(tempTime));
+
 
                 Log.d("time_left", String.valueOf(tempTime));
                 if (tempTime==0){
