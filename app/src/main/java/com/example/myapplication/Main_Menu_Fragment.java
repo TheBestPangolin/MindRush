@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.MainMenuBinding;
 public class Main_Menu_Fragment extends Fragment {
     MainMenuBinding binding;
@@ -60,6 +62,7 @@ public class Main_Menu_Fragment extends Fragment {
         });
     }
     private void initView() {
+
         singleplayerBt=getView().findViewById(R.id.single_player_button);
         multiplayerBt=getView().findViewById(R.id.multiplayer_button);
         infoBt=getView().findViewById(R.id.settings_and_info_button);
@@ -68,19 +71,16 @@ public class Main_Menu_Fragment extends Fragment {
         if(!MainActivity.isLaunched) {
             getParentFragmentManager().beginTransaction()
                     .hide(main_menu_fragment)
-                    .commitNow();
-            getParentFragmentManager().beginTransaction()
-                    .add(R.id.main, fragment)
+                    .add(R.id.main,fragment)
                     .commitNow();
             MainActivity.isLaunched=true;
         }
         else {
             getParentFragmentManager().beginTransaction()
                     .hide(main_menu_fragment)
-                    .commitNow();
-            getParentFragmentManager().beginTransaction()
                     .attach(fragment)
                     .commitNow();
+
         }
     }
 }

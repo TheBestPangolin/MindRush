@@ -3,16 +3,11 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,8 +23,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public static MyFragment fragment=new MyFragment();
     @SuppressLint("StaticFieldLeak")
-    static Main_Menu_Fragment main_menu_fragment=new Main_Menu_Fragment();
-    static boolean isLaunched=false;
+    public static Main_Menu_Fragment main_menu_fragment=new Main_Menu_Fragment();
+    public static AnsweredFragment answeredFragment=new AnsweredFragment();
+    public static boolean isLaunched=false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -44,12 +40,10 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.main,main_menu_fragment)
                     .commitNow();
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.main,fragment)
-//                    .commitNow();
-//            getSupportFragmentManager().beginTransaction()
-//                    .hide(fragment)
-//                    .commitNow();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main,answeredFragment)
+                    .detach(answeredFragment)
+                    .commitNow();
         }
 
     }

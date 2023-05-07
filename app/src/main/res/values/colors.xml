@@ -4,6 +4,7 @@
     <color name="normal">#FFFFFDD0</color>
     <color name="buttons">#FF30BACF</color>
     <color name="green">#FF3CB371</color>
+    <color name="wrong">#FFA04154</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>

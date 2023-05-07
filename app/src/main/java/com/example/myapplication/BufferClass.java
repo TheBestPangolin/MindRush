@@ -47,7 +47,7 @@ public class BufferClass {
         getOptions(config);
         for (int i = 0; i < questionList.size(); i++) {
             Question q = new Question(optionList.get(i), questionList.get(i), difficultyList.get(i),i);
-//            q.mixOptions();
+            q.mixOptions();
             listOfQuestions.add(q);
         }
         Log.d("difficulty", "listofQ" + String.valueOf(listOfQuestions));

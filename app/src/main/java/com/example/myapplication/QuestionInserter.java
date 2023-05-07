@@ -18,6 +18,7 @@ public class QuestionInserter {
     Integer lives=3;
     ArrayList<Question> bufferList;
     int numbOfQuestion;
+    int trueAnswers=0;
     int wrongAnswers;
     int overallScore=0;
     int combo=0;
@@ -58,50 +59,6 @@ public class QuestionInserter {
     public QuestionInserter() {
 
     }
-
-//    public static void setQuestions() {
-//        Object config = Configuration.defaultConfiguration().jsonProvider().parse(allQuestions);
-//        getQuestion(config);
-//        getOptions(config);
-//        for (int i = 0; i < questionList.size(); i++) {
-//            Question q = new Question(optionList.get(i), questionList.get(i), difficultyList.get(i));
-//            q.mixOptions();
-//            listOfQuestions.add(q);
-//        }
-//        Log.d("difficulty", "listofQ" + String.valueOf(listOfQuestions));
-//        for (int i = 0; i < difficultyCount; i++) {
-//            numberOfQuestionsOfDifficultyX[i] = Collections.frequency(difficultyList, i);
-//            x[i]=random(1, numberOfQuestionsOfDifficultyX[i]);
-//        }
-//        Log.d("difficulty", "numberofQofDiffX" + Arrays.toString(numberOfQuestionsOfDifficultyX));
-//
-//    }
-
-//    private static void getOptions(Object config) {
-//        List<String> trueOptions = JsonPath.read(config, "$..true_answer");
-//        List<String> options1 = JsonPath.read(config, "$..answer1");
-//        List<String> options2 = JsonPath.read(config, "$.questions.normal_questions[*].answer2");
-//        List<String> options3 = JsonPath.read(config, "$.questions.normal_questions[*].answer3");
-//        Log.d("JSON", trueOptions + "\n" + options1 + "\n" + options2 + "\n" + options3);
-//        for (int i = 0; i < trueOptions.size(); i++) {
-//            if ((trueOptions.get(i).equals("Правда") && options1.get(i).equals("Ложь")) ? false
-//                    : ((trueOptions.get(i).equals("Ложь") && options1.get(i).equals("Правда")) ? false : true)) {
-//                optionList.add(new String[]{trueOptions.get(i), options1.get(i), options2.get(i), options3.get(i)});
-//            } else {
-//                optionList.add(new String[]{trueOptions.get(i), options1.get(i)});
-//            }
-//        }
-//    }
-//
-//    private static void getQuestion(Object config) {
-//        questionList = JsonPath.read(config, "$..question_title");
-//        difficultyList = JsonPath.read(config, "$..difficulty");
-//
-//        Log.d("difficulty", String.valueOf(difficultyList));
-//    }
-
-
-
     private void what(int diff) {
         if (bufferList.size() != 0) {
             bufferList.clear();
@@ -109,7 +66,7 @@ public class QuestionInserter {
         for (int i = 0; i < BufferClass.getListOfQuestions().size(); i++) {
             if (BufferClass.getListOfQuestions().get(i).getDifficulty().equals(diff)) {
               Question q=BufferClass.getListOfQuestions().get(i);
-              q.mixOptions();
+
 
                 bufferList.add(q);
                 Log.d("WTF-temp", String.valueOf(bufferList));
@@ -137,9 +94,7 @@ public class QuestionInserter {
         return lives;
     }
 
-    public void setLives(Integer lives) {
-        this.lives = lives;
-    }
+
     public void addNumbOfQuestion(){
         numbOfQuestion++;
     }
@@ -148,12 +103,15 @@ public class QuestionInserter {
         return numbOfQuestion;
     }
     public void answeredWrong(){
-        wrongAnswers++;
-        combo=0;
+        this.wrongAnswers++;
+        this.combo=0;
+        this.lives--;
     }
     public void answeredTrue(){
-        combo++;
+        trueAnswers++;
         overallScore+=winPoints+(difficultyModifier*(actualQuestions.get(getNumbOfQuestion()).getDifficulty()))+(combo*2);
+        combo++;
+        this.numbOfQuestion++;
     }
 
     public int getRealNumber() {
@@ -165,6 +123,8 @@ public class QuestionInserter {
     public void playerLost() {
         lost=true;
     }
+    public void check(){
 
+    }
 
 }
