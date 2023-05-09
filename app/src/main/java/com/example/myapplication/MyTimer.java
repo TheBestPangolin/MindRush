@@ -1,6 +1,6 @@
 package com.example.myapplication;
 
-import static com.example.myapplication.MainActivity.fragment;
+import static com.example.myapplication.View.MainActivity.fragment;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MyTimer {
-    boolean running;
+    public boolean running;
     Timer timer=new Timer();
     public void startWork(int allTime){
         MyTimerTask task=new MyTimerTask(allTime);

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,22 +9,22 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.myapplication.BufferClass;
+import com.example.myapplication.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
-//    private Button singleplayerBt;
-//    private Button multiplayerBt;
-//    private Button infoBt;
-//    private static final String SINGLEPLAYER="SINGLEPLAYER";
-//    private static final String MULTIPLAYER="MULTIPLAYER";
-//    private static final String INFO="INFO";
+
     @SuppressLint("StaticFieldLeak")
     public static MyFragment fragment=new MyFragment();
     @SuppressLint("StaticFieldLeak")
     public static Main_Menu_Fragment main_menu_fragment=new Main_Menu_Fragment();
+    @SuppressLint("StaticFieldLeak")
     public static AnsweredFragment answeredFragment=new AnsweredFragment();
+    public static BufferFragment bufferFragment=new BufferFragment();
     public static boolean isLaunched=false;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.main,answeredFragment)
                     .detach(answeredFragment)
+                    .add(R.id.main,bufferFragment)
+                    .hide(bufferFragment)
                     .commitNow();
         }
 
@@ -54,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
             fragment.launchMainMenu();
         }
         else {
-            super.onBackPressed();
+            getSupportFragmentManager().beginTransaction()
+                    .hide(bufferFragment)
+                    .show(main_menu_fragment)
+                    .commitNow();
         }
     }
 
@@ -72,27 +77,7 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-//    private void initView() {
-//        singleplayerBt=findViewById(R.id.single_player_button);
-//        multiplayerBt=findViewById(R.id.multiplayer_button);
-//        infoBt=findViewById(R.id.settings_and_info_button);
-//    }
-//
-//    private void setupView() {
-//        singleplayerBt.setOnClickListener(view -> {
-//            launchGame();
-//            fragment.launchTest(SINGLEPLAYER);
-//        });
-//        multiplayerBt.setOnClickListener(view -> {
-//            launchGame();
-//            fragment.launchTest(MULTIPLAYER);
-//        });
-//        infoBt.setOnClickListener(view -> {
-//            launchGame();
-//            fragment.launchTest(INFO);
-//        });
-//    }
-//
+
     public  void fileOpener() {
         BufferedReader br;
         try {
@@ -107,13 +92,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void launchGame(){
-//        getSupportFragmentManager().beginTransaction()
-//                .detach(main_menu_fragment)
-//                .commitNow();
-//        getSupportFragmentManager().beginTransaction()
-//                .attach(fragment)
-//                .commitNow();
-//    }
+
 
 }

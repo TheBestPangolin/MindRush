@@ -1,7 +1,8 @@
-package com.example.myapplication;
+package com.example.myapplication.View;
 
-import static com.example.myapplication.MainActivity.fragment;
-import static com.example.myapplication.MainActivity.main_menu_fragment;
+import static com.example.myapplication.View.MainActivity.bufferFragment;
+import static com.example.myapplication.View.MainActivity.fragment;
+import static com.example.myapplication.View.MainActivity.main_menu_fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.MainMenuBinding;
+
+
 public class Main_Menu_Fragment extends Fragment {
     MainMenuBinding binding;
     private static final String SINGLEPLAYER="SINGLEPLAYER";
@@ -47,17 +49,17 @@ public class Main_Menu_Fragment extends Fragment {
     private void setupView() {
         singleplayerBt.setOnClickListener(view -> {
             fragment.launchTest(SINGLEPLAYER);
-            launchGame();
+            launchGame(false);
 
         });
         multiplayerBt.setOnClickListener(view -> {
             fragment.launchTest(MULTIPLAYER);
-            launchGame();
+            launchGame(true);
 
         });
         infoBt.setOnClickListener(view -> {
             fragment.launchTest(INFO);
-            launchGame();
+            launchGame(false);
 
         });
     }
@@ -67,20 +69,25 @@ public class Main_Menu_Fragment extends Fragment {
         multiplayerBt=getView().findViewById(R.id.multiplayer_button);
         infoBt=getView().findViewById(R.id.settings_and_info_button);
     }
-    private void launchGame(){
-        if(!MainActivity.isLaunched) {
+    private void launchGame(boolean isMP){
+        if(!MainActivity.isLaunched&&!isMP) {
             getParentFragmentManager().beginTransaction()
                     .hide(main_menu_fragment)
                     .add(R.id.main,fragment)
                     .commitNow();
             MainActivity.isLaunched=true;
         }
-        else {
+        else if(!isMP) {
             getParentFragmentManager().beginTransaction()
                     .hide(main_menu_fragment)
                     .attach(fragment)
                     .commitNow();
 
+        } else if(isMP){
+            getParentFragmentManager().beginTransaction()
+                    .hide(main_menu_fragment)
+                    .show(bufferFragment)
+                    .commitNow();
         }
     }
 }

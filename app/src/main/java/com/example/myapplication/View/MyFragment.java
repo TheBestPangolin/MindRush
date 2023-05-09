@@ -1,25 +1,27 @@
-package com.example.myapplication;
+package com.example.myapplication.View;
 
-import static com.example.myapplication.MainActivity.answeredFragment;
-import static com.example.myapplication.MainActivity.fragment;
-import static com.example.myapplication.MainActivity.main_menu_fragment;
+import static com.example.myapplication.View.MainActivity.answeredFragment;
+import static com.example.myapplication.View.MainActivity.fragment;
+import static com.example.myapplication.View.MainActivity.main_menu_fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.example.myapplication.BufferClass;
+import com.example.myapplication.MyTimer;
+import com.example.myapplication.questions.QuestionInserter;
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.InfoSettingsBinding;
 import com.example.myapplication.databinding.SingleplayerGameBinding;
 
@@ -34,7 +36,7 @@ public class MyFragment extends Fragment {
     private Button option4;
     Button[] options;
     private static TextView questionType;
-    public  MyTimer myTimer;
+    public MyTimer myTimer;
     private Button livesPlacehodler;
     ViewBinding binding;
     String intent;
@@ -43,7 +45,7 @@ public class MyFragment extends Fragment {
     public static final String GAMEMODE_INFO = "INFO";
     private QuestionInserter qi1;
     private QuestionInserter[] qis;
-    Integer numberOfPlayers = 2;
+    Integer numberOfPlayers;
     Integer currentPlayer = 0;
     boolean isMP;
     boolean isLaunched;
@@ -112,7 +114,7 @@ public class MyFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void setupView(int layout, boolean isMP) {
-        setNumberOfPlayers(3);
+
         currentPlayer = 0;
         qis = null;
         this.isMP = isMP;
@@ -169,8 +171,8 @@ public class MyFragment extends Fragment {
         livesPlacehodler.setText(String.valueOf(getQi().getLives()));
 //        QuestionInserter temp=getQi();
 //        temp.actualQuestions.get(temp.getNumbOfQuestion()).mixOptions();
-        for (int i = 0; i < getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options.length; i++) {
-            options[i].setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options[i]);
+        for (int i = 0; i < getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options.size(); i++) {
+            options[i].setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options.get(i));
 
         }
         if (getQi().actualQuestions.get(getQi().getNumbOfQuestion()).isQuestion_torf()) {
@@ -524,11 +526,8 @@ public class MyFragment extends Fragment {
             myTimer.stopWork();
 
         }
-
         getParentFragmentManager().beginTransaction()
                 .detach(fragment)
-                .commitNow();
-        getParentFragmentManager().beginTransaction()
                 .show(main_menu_fragment)
                 .commitNow();
     }

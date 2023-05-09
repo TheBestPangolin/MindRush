@@ -1,7 +1,7 @@
-package com.example.myapplication;
+package com.example.myapplication.View;
 
-import static com.example.myapplication.MainActivity.answeredFragment;
-import static com.example.myapplication.MainActivity.fragment;
+import static com.example.myapplication.View.MainActivity.answeredFragment;
+import static com.example.myapplication.View.MainActivity.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
 import com.example.myapplication.R;
-import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.databinding.CorrectAnswerBinding;
 import com.example.myapplication.databinding.ReadyBinding;
 import com.example.myapplication.databinding.WrongAnswerBinding;
@@ -27,6 +26,7 @@ public class AnsweredFragment extends Fragment {
     int playerNumb;
     private Button bt;
     private TextView tv;
+    boolean isLaunched=false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +34,13 @@ public class AnsweredFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewBinding binding=null;
+        ViewBinding binding;
         if(!isReady) {
             binding = (isAnswerTrue ? (CorrectAnswerBinding.inflate(inflater, container, false))
                     : (WrongAnswerBinding.inflate(inflater, container, false)));
         }
         else {
-            binding= ReadyBinding.inflate(inflater,container,false);
+            binding = ReadyBinding.inflate(inflater,container,false);
         }
 
         return binding.getRoot();
@@ -49,6 +49,7 @@ public class AnsweredFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isLaunched=true;
         if(!isReady) {
             init_and_setup_View();
         }
@@ -96,5 +97,11 @@ public class AnsweredFragment extends Fragment {
                 .attach(answeredFragment)
                 .hide(fragment)
                 .commitNow();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        isLaunched=false;
     }
 }

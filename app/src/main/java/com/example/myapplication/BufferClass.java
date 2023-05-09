@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.util.Log;
 
+import com.example.myapplication.questions.Question;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 
@@ -14,7 +15,7 @@ public class BufferClass {
     static Integer difficultyCount = 2;
     static ArrayList<Question> listOfQuestions = new ArrayList<>();
     static Integer[] numberOfQuestionsOfDifficultyX = new Integer[difficultyCount];
-    static ArrayList<String[]> optionList = new ArrayList<>();
+    static ArrayList<ArrayList<String>> optionList = new ArrayList<>();
     static ArrayList<String> questionList = new ArrayList<>();
     static ArrayList<Integer> difficultyList = new ArrayList<>();
     static String allQuestions = "";
@@ -66,12 +67,22 @@ public class BufferClass {
         List<String> options3 = JsonPath.read(config, "$.questions.normal_questions[*].answer3");
         Log.d("JSON", trueOptions + "\n" + options1 + "\n" + options2 + "\n" + options3);
         for (int i = 0; i < trueOptions.size(); i++) {
-            if ((trueOptions.get(i).equals("Правда") && options1.get(i).equals("Ложь")) ? false
-                    : ((trueOptions.get(i).equals("Ложь") && options1.get(i).equals("Правда")) ? false : true)) {
-                optionList.add(new String[]{trueOptions.get(i), options1.get(i), options2.get(i), options3.get(i)});
-            } else {
-                optionList.add(new String[]{trueOptions.get(i), options1.get(i)});
+            ArrayList<String> temp=new ArrayList<>();
+            temp.add(trueOptions.get(i));
+            temp.add(options1.get(i));
+            if(i<options2.size()){
+                temp.add(options2.get(i));
             }
+            if(i<options3.size()){
+                temp.add(options3.get(i));
+            }
+//            if ((trueOptions.get(i).equals("Правда") && options1.get(i).equals("Ложь")) ? false
+//                    : ((trueOptions.get(i).equals("Ложь") && options1.get(i).equals("Правда")) ? false : true)) {
+//
+//            } else {
+//
+//            }
+            optionList.add(temp);
         }
     }
 
@@ -95,10 +106,10 @@ public class BufferClass {
     }
     public static Integer random(int min, int max) {
         Integer i=(int) ((Math.random() * ((max + 1) - min)) + min);
-        return (Integer) i;
+        return i;
     }
-    public static void setOptionsAsTheyWere(String[] temp, int index){
-        optionList.set(index,temp);
-    }
+//    public static void setOptionsAsTheyWere(String[] temp, int index){
+//        optionList.set(index,temp);
+//    }
 
 }

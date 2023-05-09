@@ -5,8 +5,15 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-@Database(entities = {QuestionEntity.class}, version = 1)
+import com.example.myapplication.database.Entities.BufferEntity;
+import com.example.myapplication.database.Entities.QuestionEntity;
+
+@Database(
+        entities = {QuestionEntity.class, BufferEntity.class} , version = 1
+)
+@TypeConverters({Converter.class})
 public abstract class MainDatabase extends RoomDatabase {
     private static MainDatabase instance;
 

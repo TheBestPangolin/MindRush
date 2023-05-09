@@ -1,34 +1,27 @@
-package com.example.myapplication;
+package com.example.myapplication.questions;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
+import com.example.myapplication.BufferClass;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class QuestionInserter {
-     int difficultyCount = BufferClass.getDifficultyCount();
+    public int difficultyCount = BufferClass.getDifficultyCount();
 //    static int[] x=new int[difficultyCount];
-    Integer lives=3;
+    public Integer lives=3;
     ArrayList<Question> bufferList;
-    int numbOfQuestion;
-    int trueAnswers=0;
-    int wrongAnswers;
-    int overallScore=0;
-    int combo=0;
-    int realNumber;
-
-    boolean lost;
+    public int numbOfQuestion;
+    public int trueAnswers=0;
+    public int wrongAnswers=0;
+    public int overallScore=0;
+    public int combo=0;
+    public int realNumber;
+    public boolean lost;
     final int difficultyModifier=20;
     final int winPoints=5;
 //    static int[] numberOfQuestionsOfDifficultyX = new int[difficultyCount];
-    ArrayList<Question> actualQuestions;
+    public ArrayList<Question> actualQuestions;
 //    static ArrayList<Question> listOfQuestions = new ArrayList<>();
 //
 //    static ArrayList<String[]> optionList = new ArrayList<>();
