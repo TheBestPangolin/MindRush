@@ -25,10 +25,15 @@ public class Database_Init {
     static CountBE countBE=AppStart.getInstance().getCountBE();
     static AddNewQ addNewQ=AppStart.getInstance().getAddNewQ();
     public static void Init_Database(){
-        if(countBE.countBE().getValue()==0){
-            addBE.addBufferEntity(new BufferEntity(0,true));
+        try {
+            if (countBE == null || countBE.countBE().getValue() == 0) {
+                addBE.addBufferEntity(new BufferEntity(0, true));
+            }
         }
-        if(getIs_empty.getIs_empty().getValue()){
+        catch (NullPointerException e){
+            addBE.addBufferEntity(new BufferEntity(0, true));
+        }
+        if(getIs_empty==null||Boolean.TRUE.equals(getIs_empty.getIs_empty().getValue())){
             ArrayList<String> temp=new ArrayList<>();
             ArrayList<String> questions_temp=JsonPath.read(config,"$..question_title");
             ArrayList<Integer> diff_temp=JsonPath.read(config,"$..difficulty");

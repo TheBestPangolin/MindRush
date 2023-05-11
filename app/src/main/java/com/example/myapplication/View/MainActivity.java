@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  void fileOpener() {
-        if(countBE.countBE().getValue()<1
-                ||Boolean.TRUE.equals(AppStart.getInstance().getGetIs_empty().getIs_empty().getValue()))
-        {
+//        if(countBE.countBE().getValue()<1
+//                ||Boolean.TRUE.equals(AppStart.getInstance().getGetIs_empty().getIs_empty().getValue()))
+//        {
             BufferedReader br;
             try {
                 br = new BufferedReader(new InputStreamReader(getAssets().open("questions.txt")));
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d("da b", "why");
             }
-        }
+
     }
 
 

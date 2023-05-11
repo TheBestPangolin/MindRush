@@ -33,7 +33,7 @@ public class BufferClass {
             difficultyList.add(getAllQ.getAllByDiffX(i).getValue().size());
         }
         for (int i = 0; i < difficultyCount; i++) {
-            x[i]=random(3, difficultyList.get(i)/2);
+            x[i]=random(1, difficultyList.get(i));
         }
     }
 
