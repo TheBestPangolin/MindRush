@@ -13,9 +13,14 @@ public class AppStart extends Application {
     private Add_BufferEntity add_BE;
     private Delete_BufferEntity delete_BE;
     private GetIs_Empty getIs_empty;
+    private CountBE countBE;
 
     public GetAllQ getGetAllQ() {
         return getAllQ;
+    }
+
+    public CountBE getCountBE() {
+        return countBE;
     }
 
     public AddNewQ getAddNewQ() {
@@ -42,11 +47,12 @@ public class AppStart extends Application {
         instance = this;
         MainDatabase db = MainDatabase.getInstance(this);
         RepositoryImpl rep = new RepositoryImpl(db.MainDao());
+        getIs_empty = new GetIs_Empty(rep);
+        countBE=new CountBE(rep);
         getAllQ = new GetAllQ(rep);
         addNewQ = new AddNewQ(rep);
         add_BE = new Add_BufferEntity(rep);
         delete_BE = new Delete_BufferEntity(rep);
-        getIs_empty = new GetIs_Empty(rep);
     }
 
     public static AppStart getInstance() {

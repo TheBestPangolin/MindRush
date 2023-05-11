@@ -17,12 +17,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RepositoryImpl implements Repository {
     private final MainDao dao;
     private final MutableLiveData<ArrayList<Question>> questionsList;
-    private final MutableLiveData<ArrayList<Question>> buffer;
+
 
     public RepositoryImpl(MainDao dao) {
         this.dao = dao;
         questionsList = new MutableLiveData<>();
-        buffer=new MutableLiveData<>();
+
         updateQuestionList();
     }
 
@@ -76,14 +76,25 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Boolean getIs_empty() {
-        AtomicReference<Boolean> b = new AtomicReference<>();
+    public MutableLiveData<Boolean> getIs_empty() {
+        MutableLiveData<Boolean> b=new MutableLiveData<>();
         AsyncTask.execute(() -> {
             synchronized (dao){
-                b.set(dao.getIs_empty());
+                b.postValue(dao.getIs_empty());
             }
         });
-        return b.get();
+        return b;
+    }
+
+    @Override
+    public MutableLiveData<Integer> countBE() {
+        MutableLiveData<Integer> i=new MutableLiveData<>();
+        AsyncTask.execute(() -> {
+            synchronized (dao){
+                i.postValue(dao.countBE());
+            }
+        });
+        return i;
     }
 
     private void updateQuestionList() {

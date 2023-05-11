@@ -406,3 +406,185 @@
 //        return intent;
 //    }
 //}
+//            getQi().answeredTrue();
+//            try {
+//                getQi().addNumbOfQuestion();
+//
+//                if (isMP) {
+//                    currentPlayer++;
+//                    if (currentPlayer == qis.length) {
+//                        currentPlayer = 0;
+//                    }
+//                    myTimer.stopWork();
+//                    myTimer.startWork(90);
+//                }
+//                setupText();
+//                if (isMP) {
+//                    myTimer.stopWork();
+//
+//                    myTimer.startWork(90);
+//                }
+//            } catch (IndexOutOfBoundsException e) {
+//                if (!isMP) {
+//                    showSinglePlayerWinMsg();
+////                    Toast.makeText(getApplicationContext(), "Ура! Ты выиграл! Молодец!\nТы набрал " + getQi().overallScore + " очков!" +
+////                            "\nТы ответил правильно на " + (getQi().actualQuestions.size()-getQi().wrongAnswers) + " из " + getQi().actualQuestions.size() + " вопросов", Toast.LENGTH_LONG).show();
+//                } else {
+////                    numberOfPlayers--;
+////                    qis[currentPlayer].playerWon();
+//
+//                    currentPlayer++;
+//                    if (currentPlayer == qis.length) {
+//                        currentPlayer = 0;
+//                    }
+//                    while (qis[currentPlayer].lost) {
+//                        currentPlayer++;
+//                        if (currentPlayer == qis.length) {
+//                            currentPlayer = 0;
+//                        }
+//                    }
+//
+//                    try {
+//                        setupText();
+//                        myTimer.stopWork();
+//                        myTimer.startWork(90);
+//                    } catch (IndexOutOfBoundsException err) {
+//                        QuestionInserter winner = new QuestionInserter();
+//                        for (int i = 0; i < qis.length; i++) {
+////                            Log.d("Who Won", String.valueOf(qi.won));
+//                            if (qis[i].lost) {
+//                                continue;
+//                            } else if (winner.overallScore < qis[i].overallScore) {
+//                                winner = qis[i];
+//                            }
+//                        }
+//                        setAlertDialog(winner);
+//
+//
+//                    }
+//                }
+//            }
+//        } else {
+//            try {
+//                getQi().setLives(getQi().getLives() - 1);
+//                getQi().answeredWrong();
+//                Toast.makeText(getActivity().getApplicationContext(), "Этот ответ неправильный!", Toast.LENGTH_SHORT).show();
+//                if (getQi().getLives() == 0) {
+//                    if (!isMP) {
+//                        launchMainMenu();
+//                        Toast.makeText(getActivity().getApplicationContext(), "К сожалению, ты проиграл. Но не расстраивайся!", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        numberOfPlayers--;
+//                        qis[currentPlayer].playerLost();
+//                        if (numberOfPlayers == 1) {
+//                            QuestionInserter winner = new QuestionInserter();
+//                            for (int i = 0; i < qis.length; i++) {
+////                            Log.d("Who Won", String.valueOf(qi.won));
+//                                if (qis[i].lost) {
+//                                    continue;
+//                                } else if (winner.overallScore < qis[i].overallScore) {
+//                                    winner = qis[i];
+//                                }
+//                            }
+//                            setAlertDialog(winner);
+//
+//
+//                        }
+//
+//                    }
+//                }
+//                if (getQi().getLives() != 0) {
+//                    getQi().addNumbOfQuestion();
+//                }
+//                if (isMP) {
+//                    currentPlayer++;
+//                    if (currentPlayer == qis.length) {
+//                        currentPlayer = 0;
+//                    }
+//                    try {
+//                        while (qis[currentPlayer].lost) {
+//                            currentPlayer++;
+//                            if (currentPlayer == qis.length) {
+//                                currentPlayer = 0;
+//                            }
+//                        }
+//                    } catch (IndexOutOfBoundsException ex) {
+//                        currentPlayer = 0;
+//                        while (qis[currentPlayer].lost) {
+//                            currentPlayer++;
+//                            if (currentPlayer == qis.length) {
+//                                currentPlayer = 0;
+//                            }
+//                        }
+//                    }
+//                }
+//                setupText();
+//                if (isMP) {
+//                    myTimer.stopWork();
+//
+//                    myTimer.startWork(90);
+//                }
+//            } catch (IndexOutOfBoundsException e) {
+//                if (!isMP) {
+//                    if (getQi().getLives() == 0) {
+//                        launchMainMenu();
+//                        Toast.makeText(getActivity().getApplicationContext(), "К сожалению, ты проиграл. Но не расстраивайся!", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        showSinglePlayerWinMsg();
+////                        Toast.makeText(getApplicationContext(), "Ура! Ты выиграл! Молодец!\nТы набрал " + getQi().overallScore + " очков!", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    if (getQi().getLives() == 0) {
+//                        numberOfPlayers--;
+//                        qis[currentPlayer].playerLost();
+//                    }
+////                    else {
+////                        numberOfPlayers--;
+////                        qis[currentPlayer].playerWon();
+////                    }
+//
+//                    currentPlayer++;
+//                    if (currentPlayer == qis.length) {
+//                        currentPlayer = 0;
+//                    }
+//                    try {
+//                        while (qis[currentPlayer].lost) {
+//                            currentPlayer++;
+//                            if (currentPlayer == qis.length) {
+//                                currentPlayer = 0;
+//                            }
+//                        }
+//                    } catch (IndexOutOfBoundsException ex) {
+//                        currentPlayer = 0;
+//                        while (qis[currentPlayer].lost) {
+//                            currentPlayer++;
+//                            if (currentPlayer == qis.length) {
+//                                currentPlayer = 0;
+//                            }
+//                        }
+//                    }
+//                    try {
+//                        setupText();
+//                        myTimer.stopWork();
+//
+//                        myTimer.startWork(90);
+//                    } catch (IndexOutOfBoundsException err) {
+//                        QuestionInserter winner = new QuestionInserter();
+//                        for (int i = 0; i < qis.length; i++) {
+////                            Log.d("Who Won", String.valueOf(qi.won));
+//                            if (qis[i].lost) {
+//                                continue;
+//                            } else if (winner.overallScore < qis[i].overallScore) {
+//                                winner = qis[i];
+//                            }
+//                        }
+//                        setAlertDialog(winner);
+//
+//
+////                        Toast.makeText(getApplicationContext(), "Многопользовательская игра завершена", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                }
+//            }
+//
+//        }

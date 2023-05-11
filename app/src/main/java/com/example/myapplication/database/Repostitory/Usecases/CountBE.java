@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.database.Repostitory.Repository;
 
-public class GetIs_Empty {
+public class CountBE {
     private final Repository rep;
 
-    public GetIs_Empty(Repository rep) {
+    public CountBE(Repository rep) {
         this.rep = rep;
     }
-    public MutableLiveData<Boolean> getIs_empty(){
-        return rep.getIs_empty();
+
+    public MutableLiveData<Integer> countBE(){
+        return rep.countBE();
     }
 }

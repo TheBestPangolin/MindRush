@@ -30,11 +30,11 @@ public class MyFragment extends Fragment {
     private TextView playerNumber;
     private TextView numberOfQuestion;
     public TextView timer;
-    private Button option1;
-    private Button option2;
-    private Button option3;
-    private Button option4;
-    Button[] options;
+    private OptionButton option1;
+    private OptionButton option2;
+    private OptionButton option3;
+    private OptionButton option4;
+    OptionButton[] options;
     private static TextView questionType;
     public MyTimer myTimer;
     private Button livesPlacehodler;
@@ -76,20 +76,16 @@ public class MyFragment extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         super.onViewCreated(view, savedInstanceState);
-//        int gamemode=R.layout.singleplayer_game;
         int gamemode = getIntent().equals(GAMEMODE_SINGLE) ?
                 R.layout.singleplayer_game : (getIntent().equals(GAMEMODE_MULTIPLAYER) ?
                 R.layout.singleplayer_game : R.layout.info_settings);
         if (!BufferClass.isIsFileOpened()) {
-            BufferClass.setQuestions();
-            qi1 = new QuestionInserter(1);
             BufferClass.fileIsOpened();
+            qi1 = new QuestionInserter(1);
+
         } else {
-            BufferClass.clearAll();
-            BufferClass.setQuestions();
             qi1 = new QuestionInserter(1);
         }
-//        setContentView(gamemode);
         initView();
         setupView(gamemode, getIntent().equals(GAMEMODE_MULTIPLAYER));
 
@@ -98,11 +94,19 @@ public class MyFragment extends Fragment {
 
     private void initView() {
         isLaunched = true;
-        option1 = getView().findViewById(R.id.firstOption);
-        option2 = getView().findViewById(R.id.secondOption);
-        option3 = getView().findViewById(R.id.thirdOption);
-        option4 = getView().findViewById(R.id.fourthOption);
-        options = new Button[]{option1, option2, option3, option4};
+        option1.setBt(getView().findViewById(R.id.firstOption));
+        option1.setTv(getView().findViewById(R.id.firstOptionTV));
+
+        option2.setBt(getView().findViewById(R.id.secondOption));
+        option2.setTv(getView().findViewById(R.id.secondOptionTV));
+
+        option3.setBt(getView().findViewById(R.id.thirdOption));
+        option3.setTv(getView().findViewById(R.id.thirdOptionTV));
+
+        option4.setBt(getView().findViewById(R.id.fourthOption));
+        option4.setTv(getView().findViewById(R.id.fourthOptionTV));
+
+        options = new OptionButton[]{option1, option2, option3, option4};
         questionType = getView().findViewById(R.id.type_of_question);
         numberOfQuestion = getView().findViewById(R.id.number_of_question);
         timer = getView().findViewById(R.id.timer);
@@ -155,9 +159,7 @@ public class MyFragment extends Fragment {
             option4.setOnClickListener(view -> {
                 nextQuestion(4, true);
             });
-            for (int i = 0; i < options.length; i++) {
-                options[i].setBackgroundColor(R.color.buttons);
-            }
+
 
 
         } else if (layout == R.layout.info_settings) {
@@ -173,7 +175,6 @@ public class MyFragment extends Fragment {
 //        temp.actualQuestions.get(temp.getNumbOfQuestion()).mixOptions();
         for (int i = 0; i < getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options.size(); i++) {
             options[i].setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).options.get(i));
-
         }
         if (getQi().actualQuestions.get(getQi().getNumbOfQuestion()).isQuestion_torf()) {
             questionType.setText("Правда или ложь?");
@@ -265,188 +266,7 @@ public class MyFragment extends Fragment {
             }
         }
 
-//            getQi().answeredTrue();
-//            try {
-//                getQi().addNumbOfQuestion();
-//
-//                if (isMP) {
-//                    currentPlayer++;
-//                    if (currentPlayer == qis.length) {
-//                        currentPlayer = 0;
-//                    }
-//                    myTimer.stopWork();
-//                    myTimer.startWork(90);
-//                }
-//                setupText();
-//                if (isMP) {
-//                    myTimer.stopWork();
-//
-//                    myTimer.startWork(90);
-//                }
-//            } catch (IndexOutOfBoundsException e) {
-//                if (!isMP) {
-//                    showSinglePlayerWinMsg();
-////                    Toast.makeText(getApplicationContext(), "Ура! Ты выиграл! Молодец!\nТы набрал " + getQi().overallScore + " очков!" +
-////                            "\nТы ответил правильно на " + (getQi().actualQuestions.size()-getQi().wrongAnswers) + " из " + getQi().actualQuestions.size() + " вопросов", Toast.LENGTH_LONG).show();
-//                } else {
-////                    numberOfPlayers--;
-////                    qis[currentPlayer].playerWon();
-//
-//                    currentPlayer++;
-//                    if (currentPlayer == qis.length) {
-//                        currentPlayer = 0;
-//                    }
-//                    while (qis[currentPlayer].lost) {
-//                        currentPlayer++;
-//                        if (currentPlayer == qis.length) {
-//                            currentPlayer = 0;
-//                        }
-//                    }
-//
-//                    try {
-//                        setupText();
-//                        myTimer.stopWork();
-//                        myTimer.startWork(90);
-//                    } catch (IndexOutOfBoundsException err) {
-//                        QuestionInserter winner = new QuestionInserter();
-//                        for (int i = 0; i < qis.length; i++) {
-////                            Log.d("Who Won", String.valueOf(qi.won));
-//                            if (qis[i].lost) {
-//                                continue;
-//                            } else if (winner.overallScore < qis[i].overallScore) {
-//                                winner = qis[i];
-//                            }
-//                        }
-//                        setAlertDialog(winner);
-//
-//
-//                    }
-//                }
-//            }
-//        } else {
-//            try {
-//                getQi().setLives(getQi().getLives() - 1);
-//                getQi().answeredWrong();
-//                Toast.makeText(getActivity().getApplicationContext(), "Этот ответ неправильный!", Toast.LENGTH_SHORT).show();
-//                if (getQi().getLives() == 0) {
-//                    if (!isMP) {
-//                        launchMainMenu();
-//                        Toast.makeText(getActivity().getApplicationContext(), "К сожалению, ты проиграл. Но не расстраивайся!", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        numberOfPlayers--;
-//                        qis[currentPlayer].playerLost();
-//                        if (numberOfPlayers == 1) {
-//                            QuestionInserter winner = new QuestionInserter();
-//                            for (int i = 0; i < qis.length; i++) {
-////                            Log.d("Who Won", String.valueOf(qi.won));
-//                                if (qis[i].lost) {
-//                                    continue;
-//                                } else if (winner.overallScore < qis[i].overallScore) {
-//                                    winner = qis[i];
-//                                }
-//                            }
-//                            setAlertDialog(winner);
-//
-//
-//                        }
-//
-//                    }
-//                }
-//                if (getQi().getLives() != 0) {
-//                    getQi().addNumbOfQuestion();
-//                }
-//                if (isMP) {
-//                    currentPlayer++;
-//                    if (currentPlayer == qis.length) {
-//                        currentPlayer = 0;
-//                    }
-//                    try {
-//                        while (qis[currentPlayer].lost) {
-//                            currentPlayer++;
-//                            if (currentPlayer == qis.length) {
-//                                currentPlayer = 0;
-//                            }
-//                        }
-//                    } catch (IndexOutOfBoundsException ex) {
-//                        currentPlayer = 0;
-//                        while (qis[currentPlayer].lost) {
-//                            currentPlayer++;
-//                            if (currentPlayer == qis.length) {
-//                                currentPlayer = 0;
-//                            }
-//                        }
-//                    }
-//                }
-//                setupText();
-//                if (isMP) {
-//                    myTimer.stopWork();
-//
-//                    myTimer.startWork(90);
-//                }
-//            } catch (IndexOutOfBoundsException e) {
-//                if (!isMP) {
-//                    if (getQi().getLives() == 0) {
-//                        launchMainMenu();
-//                        Toast.makeText(getActivity().getApplicationContext(), "К сожалению, ты проиграл. Но не расстраивайся!", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        showSinglePlayerWinMsg();
-////                        Toast.makeText(getApplicationContext(), "Ура! Ты выиграл! Молодец!\nТы набрал " + getQi().overallScore + " очков!", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    if (getQi().getLives() == 0) {
-//                        numberOfPlayers--;
-//                        qis[currentPlayer].playerLost();
-//                    }
-////                    else {
-////                        numberOfPlayers--;
-////                        qis[currentPlayer].playerWon();
-////                    }
-//
-//                    currentPlayer++;
-//                    if (currentPlayer == qis.length) {
-//                        currentPlayer = 0;
-//                    }
-//                    try {
-//                        while (qis[currentPlayer].lost) {
-//                            currentPlayer++;
-//                            if (currentPlayer == qis.length) {
-//                                currentPlayer = 0;
-//                            }
-//                        }
-//                    } catch (IndexOutOfBoundsException ex) {
-//                        currentPlayer = 0;
-//                        while (qis[currentPlayer].lost) {
-//                            currentPlayer++;
-//                            if (currentPlayer == qis.length) {
-//                                currentPlayer = 0;
-//                            }
-//                        }
-//                    }
-//                    try {
-//                        setupText();
-//                        myTimer.stopWork();
-//
-//                        myTimer.startWork(90);
-//                    } catch (IndexOutOfBoundsException err) {
-//                        QuestionInserter winner = new QuestionInserter();
-//                        for (int i = 0; i < qis.length; i++) {
-////                            Log.d("Who Won", String.valueOf(qi.won));
-//                            if (qis[i].lost) {
-//                                continue;
-//                            } else if (winner.overallScore < qis[i].overallScore) {
-//                                winner = qis[i];
-//                            }
-//                        }
-//                        setAlertDialog(winner);
-//
-//
-////                        Toast.makeText(getApplicationContext(), "Многопользовательская игра завершена", Toast.LENGTH_LONG).show();
-//                    }
-//
-//                }
-//            }
-//
-//        }
+
 
     }
 

@@ -19,5 +19,7 @@ public interface Repository {
 
     void deleteBufferEntity(Boolean b);
 
-    Boolean getIs_empty();
+    MutableLiveData<Boolean> getIs_empty();
+
+    MutableLiveData<Integer> countBE();
 }

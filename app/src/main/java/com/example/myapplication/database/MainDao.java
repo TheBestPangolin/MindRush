@@ -30,4 +30,7 @@ public interface MainDao {
     @Query("select Is_empty from Buffer")
     Boolean getIs_empty();
 
+    @Query("select count(Is_empty) from Buffer")
+    Integer countBE();
+
 }

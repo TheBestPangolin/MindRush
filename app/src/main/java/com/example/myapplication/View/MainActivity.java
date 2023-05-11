@@ -9,14 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.myapplication.AppStart;
 import com.example.myapplication.BufferClass;
 import com.example.myapplication.R;
+import com.example.myapplication.database.Repostitory.Usecases.CountBE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @SuppressLint("StaticFieldLeak")
     public static MyFragment fragment=new MyFragment();
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static AnsweredFragment answeredFragment=new AnsweredFragment();
     public static BufferFragment bufferFragment=new BufferFragment();
     public static boolean isLaunched=false;
+    CountBE countBE=AppStart.getInstance().getCountBE();
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -79,16 +83,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  void fileOpener() {
-        BufferedReader br;
-        try {
-            br = new BufferedReader(new InputStreamReader(getAssets().open("questions.txt")));
-            String readline;
-            while ((readline = br.readLine()) != null) {
-                BufferClass.addString(readline);
+        if(countBE.countBE().getValue()<1
+                ||Boolean.TRUE.equals(AppStart.getInstance().getGetIs_empty().getIs_empty().getValue()))
+        {
+            BufferedReader br;
+            try {
+                br = new BufferedReader(new InputStreamReader(getAssets().open("questions.txt")));
+                String readline;
+                while ((readline = br.readLine()) != null) {
+                    BufferClass.addString(readline);
+                }
+                br.close();
+            } catch (IOException e) {
+                Log.d("da b", "why");
             }
-            br.close();
-        } catch (IOException e) {
-            Log.d("da b", "why");
         }
     }
 
