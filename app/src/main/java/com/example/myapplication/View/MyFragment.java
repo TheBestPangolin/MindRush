@@ -30,10 +30,10 @@ public class MyFragment extends Fragment {
     private TextView playerNumber;
     private TextView numberOfQuestion;
     public TextView timer;
-    private OptionButton option1;
-    private OptionButton option2;
-    private OptionButton option3;
-    private OptionButton option4;
+    private final OptionButton option1=new OptionButton();
+    private final OptionButton option2=new OptionButton();
+    private final OptionButton option3=new OptionButton();
+    private final OptionButton option4=new OptionButton();
     OptionButton[] options;
     private static TextView questionType;
     public MyTimer myTimer;
@@ -167,6 +167,7 @@ public class MyFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void setupText() {
 
         question.setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).question);
@@ -188,7 +189,13 @@ public class MyFragment extends Fragment {
         if (isMP) {
             playerNumber.setText("Отвечает игрок №\n" + String.valueOf(currentPlayer + 1));
         }
-        numberOfQuestion.setText("Номер вопроса: " + String.valueOf(getQi().getNumbOfQuestion() + 1));
+        int temp=0;
+        for (int i = 0; i < getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty(); i++) {
+            temp+=BufferClass.getX(i);
+        }
+        numberOfQuestion.setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()+" этап\nНомер вопроса: "+
+                ((getQi().getNumbOfQuestion()+1)-temp)+"/"+BufferClass.getX(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()));
+//        numberOfQuestion.setText("Номер вопроса: " + String.valueOf(getQi().getNumbOfQuestion() + 1));
     }
 
     public void nextQuestion(int answeredOption, boolean isMP) {
@@ -216,11 +223,12 @@ public class MyFragment extends Fragment {
             }
             finally {
                 if(isMP&&b){
+                    myTimer.stopWork();
                     answeredFragment.showReadyScreen(currentPlayer+1);
                 }
             }
             if(!isMP&&isLaunched){
-                answeredFragment.showIsAnswerCorrect(true);
+                    answeredFragment.showIsAnswerCorrect(true);
             }
 
         }
@@ -261,7 +269,8 @@ public class MyFragment extends Fragment {
                     show_Multiplayer_Win_Msg(getWinner());
                 }
                 if(isLaunched) {
-                    answeredFragment.showIsAnswerCorrect(false);
+                    myTimer.stopWork();
+                    answeredFragment.showReadyScreen(currentPlayer+1);
                 }
             }
         }
@@ -353,20 +362,20 @@ public class MyFragment extends Fragment {
     }
 
     private String getResults(QuestionInserter winner) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < qis.length; i++) {
             if (!qis[i].equals(winner)) {
-                result += "\nИгрок номер " + qis[i].realNumber + (qis[i].lost ? " проиграл" : (qis[i].overallScore == winner.overallScore ? " победил" : "")) + ":";
-                result += " Счёт: " + qis[i].overallScore + " очков.";
+                result.append("\nИгрок номер ").append(qis[i].realNumber).append(qis[i].lost ? " проиграл" : (qis[i].overallScore == winner.overallScore ? " победил" : "")).append(":");
+                result.append(" Счёт: ").append(qis[i].overallScore).append(" очков.");
                 if(!qis[i].lost) {
-                    result += "\nПравильных ответов: " + (qis[i].actualQuestions.size() - qis[i].wrongAnswers) + " из " + qis[i].actualQuestions.size();
+                    result.append("\nПравильных ответов: ").append(qis[i].actualQuestions.size() - qis[i].wrongAnswers).append(" из ").append(qis[i].actualQuestions.size());
                 }
                 else {
-                    result += "\nПравильных ответов: " + (qis[i].trueAnswers) + " из " + qis[i].actualQuestions.size();
+                    result.append("\nПравильных ответов: ").append(qis[i].trueAnswers).append(" из ").append(qis[i].actualQuestions.size());
                 }
             }
         }
-        return result;
+        return result.toString();
     }
 
     private void resetTimer(int time) {

@@ -47,12 +47,12 @@ public class AppStart extends Application {
         instance = this;
         MainDatabase db = MainDatabase.getInstance(this);
         RepositoryImpl rep = new RepositoryImpl(db.MainDao());
-        getIs_empty = new GetIs_Empty(rep);
-        countBE=new CountBE(rep);
+//        getIs_empty = new GetIs_Empty(rep);
+//        countBE=new CountBE(rep);
         getAllQ = new GetAllQ(rep);
         addNewQ = new AddNewQ(rep);
-        add_BE = new Add_BufferEntity(rep);
-        delete_BE = new Delete_BufferEntity(rep);
+//        add_BE = new Add_BufferEntity(rep);
+//        delete_BE = new Delete_BufferEntity(rep);
     }
 
     public static AppStart getInstance() {

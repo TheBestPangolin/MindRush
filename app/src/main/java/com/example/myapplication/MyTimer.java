@@ -8,13 +8,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MyTimer {
+    Integer allTime;
     public boolean running;
     Timer timer=new Timer();
     public void startWork(int allTime){
         MyTimerTask task=new MyTimerTask(allTime);
+        this.allTime=allTime;
         running=true;
         if(timer!=null){
-
             timer=new Timer();
         }
         timer.scheduleAtFixedRate(task,0,1000);
@@ -37,13 +38,14 @@ public class MyTimer {
             if(running){
                 tempTime--;
                 fragment.getActivity().runOnUiThread(() -> fragment.setupTimerText(tempTime));
-
-
-                Log.d("time_left", String.valueOf(tempTime));
                 if (tempTime==0){
                     stopWork();
                 }
             }
         }
+    }
+
+    public Integer getAllTime() {
+        return allTime;
     }
 }

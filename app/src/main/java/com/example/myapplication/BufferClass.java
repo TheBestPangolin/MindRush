@@ -3,6 +3,7 @@ package com.example.myapplication;
 import com.example.myapplication.database.Repostitory.Usecases.GetAllQ;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BufferClass {
     static Integer difficultyCount = 2;
@@ -30,10 +31,15 @@ public class BufferClass {
     public static void setQuestions() {
         GetAllQ getAllQ=AppStart.getInstance().getGetAllQ();
         for (int i = 0; i < difficultyCount; i++) {
-            difficultyList.add(getAllQ.getAllByDiffX(i).getValue().size());
+            difficultyList.add(getAllQ.getAllByDiffX(i).size());
         }
         for (int i = 0; i < difficultyCount; i++) {
-            x[i]=random(1, difficultyList.get(i));
+            if(difficultyList.get(i)>=16) {
+                x[i] = random(3, difficultyList.get(i)/2);
+            }
+            else {
+                x[i] = random(3, difficultyList.get(i));
+            }
         }
     }
 

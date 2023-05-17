@@ -1,9 +1,11 @@
 package com.example.myapplication.database.Repostitory;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myapplication.BufferClass;
 import com.example.myapplication.questions.Question;
 import com.example.myapplication.database.Entities.BufferEntity;
 import com.example.myapplication.database.EntityMapper;
@@ -16,18 +18,21 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class RepositoryImpl implements Repository {
     private final MainDao dao;
-    private final MutableLiveData<ArrayList<Question>> questionsList;
+    private final ArrayList<Question> questionsList;
+    private final ArrayList<ArrayList<Question>> difficultyOnlyQ;
+//    private final MutableLiveData<List<Boolean>> buffer;
 
 
     public RepositoryImpl(MainDao dao) {
         this.dao = dao;
-        questionsList = new MutableLiveData<>();
-
+        questionsList = new ArrayList<>();
+        difficultyOnlyQ=new ArrayList<>();
+//        buffer = new MutableLiveData<>();
         updateQuestionList();
     }
 
     @Override
-    public MutableLiveData<ArrayList<Question>> getAllQuestions() {
+    public ArrayList<Question> getAllQuestions() {
         return questionsList;
     }
 
@@ -43,69 +48,76 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public MutableLiveData<ArrayList<Question>> getAllQuestionsByDiffX(Integer diff) {
-        MutableLiveData<ArrayList<Question>> temporary = new MutableLiveData<>();
-        AsyncTask.execute(() -> {
-            synchronized (dao) {
-                List<QuestionEntity> qe_data = dao.getAllQuestionsOfDiffX(diff);
-                ArrayList<Question> temp = new ArrayList<>();
-                for (QuestionEntity qe : qe_data)
-                    temp.add(EntityMapper.toQuestion(qe));
-                temporary.postValue(temp);
-            }
-        });
-        return temporary;
+    public ArrayList<Question> getAllQuestionsByDiffX(Integer diff) {
+        return difficultyOnlyQ.get(diff);
     }
 
-    @Override
-    public void addBufferEntity(BufferEntity be) {
-        AsyncTask.execute(() -> {
-            synchronized (dao){
-                dao.addBufferEntity(be);
-            }
-        });
-    }
-
-    @Override
-    public void deleteBufferEntity(Boolean b) {
-        AsyncTask.execute(() -> {
-            synchronized (dao){
-                dao.deleteBufferEntity(b);
-            }
-        });
-    }
-
-    @Override
-    public MutableLiveData<Boolean> getIs_empty() {
-        MutableLiveData<Boolean> b=new MutableLiveData<>();
-        AsyncTask.execute(() -> {
-            synchronized (dao){
-                b.postValue(dao.getIs_empty());
-            }
-        });
-        return b;
-    }
-
-    @Override
-    public MutableLiveData<Integer> countBE() {
-        MutableLiveData<Integer> i=new MutableLiveData<>();
-        AsyncTask.execute(() -> {
-            synchronized (dao){
-                i.postValue(dao.countBE());
-            }
-        });
-        return i;
-    }
+//    @Override
+//    public void addBufferEntity(BufferEntity be) {
+//        AsyncTask.execute(() -> {
+//            synchronized (dao) {
+//                dao.addBufferEntity(be);
+//            }
+//        });
+//        updateBuffer();
+//    }
+//
+//    @Override
+//    public void deleteBufferEntity(Boolean b) {
+//        AsyncTask.execute(() -> {
+//            synchronized (dao) {
+//                dao.deleteBufferEntity(b);
+//            }
+//        });
+//        updateBuffer();
+//    }
+//
+//    @Override
+//    public MutableLiveData<List<Boolean>> getIs_empty() {
+//        return buffer;
+//    }
+//
+//    @Override
+//    public MutableLiveData<Integer> countBE() {
+//        MutableLiveData<Integer> i = new MutableLiveData<>();
+//        AsyncTask.execute(() -> {
+//            synchronized (dao) {
+//                i.postValue(dao.countBE());
+//            }
+//        });
+//        return i;
+//    }
 
     private void updateQuestionList() {
         AsyncTask.execute(() -> {
             synchronized (dao) {
                 List<QuestionEntity> qe_data = dao.getAllQuestions();
-                ArrayList<Question> data = new ArrayList<>();
                 for (QuestionEntity qe : qe_data)
-                    data.add(EntityMapper.toQuestion(qe));
-                questionsList.postValue(new ArrayList<>(data));
+                    questionsList.add(EntityMapper.toQuestion(qe));
+                for (int i = 0; i < BufferClass.getDifficultyCount(); i++) {
+                    ArrayList<Question> temp=new ArrayList<>();
+                    qe_data=dao.getAllQuestionsOfDiffX(i);
+                    for (QuestionEntity qe:qe_data) {
+                        temp.add(EntityMapper.toQuestion(qe));
+                    }
+                    difficultyOnlyQ.add(temp);
+                }
             }
         });
+
     }
+
+//    private void updateBuffer() {
+//        AsyncTask.execute(() -> {
+//            synchronized (dao){
+//                List<BufferEntity> temp=dao.getIs_empty();
+//                List<Boolean> b=new ArrayList<>();
+//                for (int i = 0; i < temp.size(); i++) {
+//                    b.add(temp.get(i).getIs_empty());
+//                }
+//                buffer.postValue(b);
+//
+//            }
+//        });
+//    }
 }

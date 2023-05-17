@@ -41,10 +41,10 @@ public class Question {
     @Override
     public String toString() {
         return "Question{" +
-                "options=" + String.valueOf(options) +
+                "options=" + options +
                 ", question='" + question + '\'' +
                 ", difficulty=" + difficulty +
-                ", trueAnswer=" + trueAnswer +
+                ", index=" + index +
                 '}';
     }
 
@@ -78,33 +78,6 @@ public class Question {
                     break;
                 }
             }
-//            String why = this.options[0];
-//            this.options[0] = this.options[temporary];
-//            this.options[temporary] = why;
-//            for (int i = 0; i < BufferClass.random(0, 10); i++) {
-//
-//                int tepr;
-//                do {
-//                    tepr = BufferClass.random(0, 3);
-//                    why = this.options[tepr];
-//                } while (tepr == this.trueAnswer-1);
-//                boolean wtf=false;
-//                String why1=null;
-//                int tepr1;
-//                while(true) {
-//                    tepr1 = BufferClass.random(0, 3);
-//                    if (tepr1 != this.trueAnswer-1) {
-//                        wtf=true;
-//                        why1=this.options[tepr1];
-//                        break;
-//                    }
-//                }
-//                if(wtf){
-//                    this.options[tepr1]=why;
-//                    this.options[tepr]=why1;
-//                }
-////                BufferClass.setOptionsAsTheyWere(temp,index);
-//            }
         }
     }
 

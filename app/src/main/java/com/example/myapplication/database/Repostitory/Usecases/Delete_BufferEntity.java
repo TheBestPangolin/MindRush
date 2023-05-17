@@ -8,7 +8,7 @@ public class Delete_BufferEntity {
     public Delete_BufferEntity(Repository rep) {
         this.rep = rep;
     }
-    public void deleteBufferEntity(Boolean b){
-        rep.deleteBufferEntity(b);
-    }
+//    public void deleteBufferEntity(Boolean b){
+//        rep.deleteBufferEntity(b);
+//    }
 }

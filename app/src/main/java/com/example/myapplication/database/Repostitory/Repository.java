@@ -6,20 +6,21 @@ import com.example.myapplication.questions.Question;
 import com.example.myapplication.database.Entities.BufferEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Repository {
 
-    MutableLiveData<ArrayList<Question>> getAllQuestions();
+    ArrayList<Question> getAllQuestions();
 
     void addNewQuestion(Question q);
 
-    MutableLiveData<ArrayList<Question>> getAllQuestionsByDiffX(Integer diff);
+    ArrayList<Question> getAllQuestionsByDiffX(Integer diff);
 
-    void addBufferEntity(BufferEntity be);
-
-    void deleteBufferEntity(Boolean b);
-
-    MutableLiveData<Boolean> getIs_empty();
-
-    MutableLiveData<Integer> countBE();
+//    void addBufferEntity(BufferEntity be);
+//
+//    void deleteBufferEntity(Boolean b);
+//
+//    MutableLiveData<List<Boolean>> getIs_empty();
+//
+//    MutableLiveData<Integer> countBE();
 }

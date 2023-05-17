@@ -72,21 +72,21 @@ public class Main_Menu_Fragment extends Fragment {
     private void launchGame(boolean isMP){
         if(!MainActivity.isLaunched&&!isMP) {
             getParentFragmentManager().beginTransaction()
-                    .hide(main_menu_fragment)
+                    .detach(main_menu_fragment)
                     .add(R.id.main,fragment)
                     .commitNow();
             MainActivity.isLaunched=true;
         }
         else if(!isMP) {
             getParentFragmentManager().beginTransaction()
-                    .hide(main_menu_fragment)
+                    .detach(main_menu_fragment)
                     .attach(fragment)
                     .commitNow();
 
         } else if(isMP){
             getParentFragmentManager().beginTransaction()
-                    .hide(main_menu_fragment)
-                    .show(bufferFragment)
+                    .detach(main_menu_fragment)
+                    .attach(bufferFragment)
                     .commitNow();
         }
     }

@@ -14,11 +14,11 @@ public class GetAllQ {
         this.rep = rep;
     }
 
-    public MutableLiveData<ArrayList<Question>> getAll(){
+    public ArrayList<Question> getAll(){
         return rep.getAllQuestions();
     }
 
-    public MutableLiveData<ArrayList<Question>> getAllByDiffX(int diff){
+    public ArrayList<Question> getAllByDiffX(int diff){
         return rep.getAllQuestionsByDiffX(diff);
     }
 }

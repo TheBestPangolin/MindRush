@@ -9,7 +9,7 @@ public class Add_BufferEntity {
     public Add_BufferEntity(Repository rep) {
         this.rep = rep;
     }
-    public void addBufferEntity(BufferEntity be){
-        rep.addBufferEntity(be);
-    }
+//    public void addBufferEntity(BufferEntity be){
+//        rep.addBufferEntity(be);
+//    }
 }

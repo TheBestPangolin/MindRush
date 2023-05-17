@@ -1,5 +1,6 @@
 package com.example.myapplication.questions;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.myapplication.AppStart;
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class QuestionInserter {
-    public int difficultyCount = BufferClass.getDifficultyCount();
+    public final int difficultyCount = BufferClass.getDifficultyCount();
     //    static int[] x=new int[difficultyCount];
     public Integer lives = 3;
-    ArrayList<Question> bufferList;
+    private ArrayList<Question> bufferList;
     public int numbOfQuestion;
     public int trueAnswers = 0;
     public int wrongAnswers = 0;
@@ -42,12 +43,14 @@ public class QuestionInserter {
         if (bufferList.size() != 0) {
             bufferList.clear();
         }
-        bufferList.addAll(getAllQ.getAllByDiffX(diff).getValue());
-        for (Question q : bufferList) {
-            q.mixOptions();
-        }
+//        bufferList.addAll(temp);
+        AsyncTask.execute(() -> {
+            bufferList.addAll(getAllQ.getAllByDiffX(diff));
+            for (Question q : bufferList) {
+                q.mixOptions();
+            }
+        });
         Log.d("WTF-temp", String.valueOf(bufferList));
-        Log.d("WTF", String.valueOf(bufferList));
     }
 
     private void what2(int diff) {

@@ -27,6 +27,7 @@ public class AnsweredFragment extends Fragment {
     private Button bt;
     private TextView tv;
     boolean isLaunched=false;
+    Integer time=0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class AnsweredFragment extends Fragment {
             bt=getView().findViewById(R.id.next_wrong);
         }
         bt.setOnClickListener(view -> {
+            fragment.myTimer.startWork(time);
             getParentFragmentManager().beginTransaction()
                     .detach(answeredFragment)
                     .show(fragment)
@@ -75,7 +77,7 @@ public class AnsweredFragment extends Fragment {
         tv.setText("Игрок номер "+playerNumb+", приготовься! \nТвоя очередь отвечать!");
         bt.setOnClickListener(v -> {
             isReady=false;
-            fragment.resetTimer();
+            fragment.myTimer.startWork(90);
             getParentFragmentManager().beginTransaction()
                     .detach(answeredFragment)
                     .show(fragment)
@@ -84,6 +86,10 @@ public class AnsweredFragment extends Fragment {
     }
 
     public void showIsAnswerCorrect(boolean isTrue){
+        if(fragment.myTimer.running){
+            time=fragment.myTimer.getAllTime();
+            fragment.myTimer.stopWork();
+        }
         isAnswerTrue=isTrue;
         getParentFragmentManager().beginTransaction()
                 .attach(answeredFragment)

@@ -29,12 +29,11 @@ public class MainActivity extends AppCompatActivity {
     public static AnsweredFragment answeredFragment=new AnsweredFragment();
     public static BufferFragment bufferFragment=new BufferFragment();
     public static boolean isLaunched=false;
-    CountBE countBE=AppStart.getInstance().getCountBE();
+//    CountBE countBE=AppStart.getInstance().getCountBE();
 
-    @SuppressLint("SourceLockedOrientationActivity")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         fileOpener();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.main,answeredFragment)
                     .detach(answeredFragment)
                     .add(R.id.main,bufferFragment)
-                    .hide(bufferFragment)
+                    .detach(bufferFragment)
                     .commitNow();
         }
 
@@ -61,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             getSupportFragmentManager().beginTransaction()
-                    .hide(bufferFragment)
-                    .show(main_menu_fragment)
+                    .detach(bufferFragment)
+                    .attach(main_menu_fragment)
                     .commitNow();
         }
     }

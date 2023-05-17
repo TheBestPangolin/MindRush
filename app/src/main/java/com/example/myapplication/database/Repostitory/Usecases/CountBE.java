@@ -11,7 +11,7 @@ public class CountBE {
         this.rep = rep;
     }
 
-    public MutableLiveData<Integer> countBE(){
-        return rep.countBE();
-    }
+//    public MutableLiveData<Integer> countBE(){
+//        return rep.countBE();
+//    }
 }

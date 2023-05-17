@@ -48,12 +48,12 @@ public class BufferFragment extends Fragment {
                 fragment.setNumberOfPlayers(Integer.parseInt(String.valueOf(et.getText())));
                 if (MainActivity.isLaunched) {
                     getParentFragmentManager().beginTransaction()
-                            .hide(bufferFragment)
+                            .detach(bufferFragment)
                             .attach(fragment)
                             .commitNow();
                 } else {
                     getParentFragmentManager().beginTransaction()
-                            .hide(bufferFragment)
+                            .detach(bufferFragment)
                             .add(R.id.main, fragment)
                             .commitNow();
                     MainActivity.isLaunched = true;
