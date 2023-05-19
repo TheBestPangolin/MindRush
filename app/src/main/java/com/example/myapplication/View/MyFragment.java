@@ -30,10 +30,10 @@ public class MyFragment extends Fragment {
     private TextView playerNumber;
     private TextView numberOfQuestion;
     public TextView timer;
-    private final OptionButton option1=new OptionButton();
-    private final OptionButton option2=new OptionButton();
-    private final OptionButton option3=new OptionButton();
-    private final OptionButton option4=new OptionButton();
+    private final OptionButton option1 = new OptionButton();
+    private final OptionButton option2 = new OptionButton();
+    private final OptionButton option3 = new OptionButton();
+    private final OptionButton option4 = new OptionButton();
     OptionButton[] options;
     private static TextView questionType;
     public MyTimer myTimer;
@@ -79,13 +79,7 @@ public class MyFragment extends Fragment {
         int gamemode = getIntent().equals(GAMEMODE_SINGLE) ?
                 R.layout.singleplayer_game : (getIntent().equals(GAMEMODE_MULTIPLAYER) ?
                 R.layout.singleplayer_game : R.layout.info_settings);
-        if (!BufferClass.isIsFileOpened()) {
-            BufferClass.fileIsOpened();
-            qi1 = new QuestionInserter(1);
-
-        } else {
-            qi1 = new QuestionInserter(1);
-        }
+        BufferClass.setQuestions();
         initView();
         setupView(gamemode, getIntent().equals(GAMEMODE_MULTIPLAYER));
 
@@ -118,12 +112,12 @@ public class MyFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void setupView(int layout, boolean isMP) {
-
         currentPlayer = 0;
         qis = null;
         this.isMP = isMP;
+        qi1 = new QuestionInserter(1);
         if (layout == R.layout.singleplayer_game && !isMP) {
-            if(myTimer.running){
+            if (myTimer.running) {
                 myTimer.stopWork();
             }
             playerNumber.setText("");
@@ -132,34 +126,33 @@ public class MyFragment extends Fragment {
             setupText();
             timer.setText("");
             option1.setOnClickListener(view -> {
-                nextQuestion(1, false);
+                nextQuestion(1);
             });
             option2.setOnClickListener(view -> {
-                nextQuestion(2, false);
+                nextQuestion(2);
             });
             option3.setOnClickListener(view -> {
-                nextQuestion(3, false);
+                nextQuestion(3);
             });
             option4.setOnClickListener(view -> {
-                nextQuestion(4, false);
+                nextQuestion(4);
             });
         } else if (layout == R.layout.singleplayer_game && isMP) {
             qis = setPlayers();
             setupText();
             myTimer.startWork(90);
             option1.setOnClickListener(view -> {
-                nextQuestion(1, true);
+                nextQuestion(1);
             });
             option2.setOnClickListener(view -> {
-                nextQuestion(2, true);
+                nextQuestion(2);
             });
             option3.setOnClickListener(view -> {
-                nextQuestion(3, true);
+                nextQuestion(3);
             });
             option4.setOnClickListener(view -> {
-                nextQuestion(4, true);
+                nextQuestion(4);
             });
-
 
 
         } else if (layout == R.layout.info_settings) {
@@ -187,19 +180,19 @@ public class MyFragment extends Fragment {
             option4.setVisibility(View.VISIBLE);
         }
         if (isMP) {
-            playerNumber.setText("Отвечает игрок №\n" + String.valueOf(currentPlayer + 1));
+            playerNumber.setText("Отвечает игрок\n№" + String.valueOf(currentPlayer + 1));
         }
-        int temp=0;
+        int temp = 0;
         for (int i = 0; i < getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty(); i++) {
-            temp+=BufferClass.getX(i);
+            temp += BufferClass.getX(i);
         }
-        numberOfQuestion.setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()+" этап\nНомер вопроса: "+
-                ((getQi().getNumbOfQuestion()+1)-temp)+"/"+BufferClass.getX(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()));
+        numberOfQuestion.setText(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()+1 + " этап\nНомер вопроса: " +
+                ((getQi().getNumbOfQuestion() + 1) - temp) + "/" + BufferClass.getX(getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getDifficulty()));
 //        numberOfQuestion.setText("Номер вопроса: " + String.valueOf(getQi().getNumbOfQuestion() + 1));
     }
 
-    public void nextQuestion(int answeredOption, boolean isMP) {
-        boolean b=true;
+    public void nextQuestion(int answeredOption) {
+        boolean b = true;
         if (answeredOption == getQi().actualQuestions.get(getQi().getNumbOfQuestion()).getTrueAnswer()) {
             getQi().answeredTrue();
 
@@ -217,49 +210,47 @@ public class MyFragment extends Fragment {
                         setupText();
                     } catch (IndexOutOfBoundsException err) {
                         show_Multiplayer_Win_Msg(getWinner());
-                        b=false;
+                        b = false;
                     }
                 }
-            }
-            finally {
-                if(isMP&&b){
-                    myTimer.stopWork();
-                    answeredFragment.showReadyScreen(currentPlayer+1);
+            } finally {
+                if (isMP && b) {
+                    answeredFragment.showReadyScreen(currentPlayer + 1);
                 }
             }
-            if(!isMP&&isLaunched){
-                    answeredFragment.showIsAnswerCorrect(true);
+            if (!isMP && isLaunched) {
+                answeredFragment.showIsAnswerCorrect(true);
             }
 
-        }
-        else {
+        } else {
             getQi().answeredWrong();
-            if(!isMP){
-                if(getQi().lives==0){
+            if (!isMP) {
+                if (getQi().lives == 0) {
                     show_Singleplayer_lost_msg();
-                }
-                else {
+                } else {
                     getQi().addNumbOfQuestion();
                     try {
                         setupText();
-                    }
-                    catch (IndexOutOfBoundsException e){
+                    } catch (IndexOutOfBoundsException e) {
                         showSinglePlayerWinMsg();
                     }
                 }
-                if(isLaunched){
-                    answeredFragment.showIsAnswerCorrect(false);
+                if (isLaunched) {
+                    if (answeredOption != 5) {
+                        answeredFragment.showIsAnswerCorrect(false);
+                    } else {
+                        answeredFragment.show_timeIsUpScreen(0);
+                    }
                 }
-            }
-            else {
-                if(getQi().getLives()==0){
+            } else {
+                if (getQi().getLives() == 0) {
                     getQi().playerLost();
                     numberOfPlayers--;
-                    if(numberOfPlayers==1){
+                    if (numberOfPlayers == 1) {
                         show_Multiplayer_Win_Msg(getWinner());
                     }
                 }
-                if(!getQi().lost){
+                if (!getQi().lost) {
                     getQi().addNumbOfQuestion();
                 }
                 nextPlayer();
@@ -268,15 +259,15 @@ public class MyFragment extends Fragment {
                 } catch (IndexOutOfBoundsException e) {
                     show_Multiplayer_Win_Msg(getWinner());
                 }
-                if(isLaunched) {
-                    myTimer.stopWork();
-                    answeredFragment.showReadyScreen(currentPlayer+1);
+                if (isLaunched) {
+                    if (answeredOption != 5) {
+                        answeredFragment.showReadyScreen(currentPlayer + 1);
+                    } else {
+                        answeredFragment.show_timeIsUpScreen(currentPlayer + 1);
+                    }
                 }
             }
         }
-
-
-
     }
 
     public QuestionInserter getQi() {
@@ -332,7 +323,8 @@ public class MyFragment extends Fragment {
         ad.show();
         launchMainMenu();
     }
-    private void show_Singleplayer_lost_msg(){
+
+    private void show_Singleplayer_lost_msg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Итоги игры")
                 .setCancelable(true)
@@ -357,7 +349,7 @@ public class MyFragment extends Fragment {
         }
         getParentFragmentManager().beginTransaction()
                 .detach(fragment)
-                .show(main_menu_fragment)
+                .attach(main_menu_fragment)
                 .commitNow();
     }
 
@@ -367,10 +359,9 @@ public class MyFragment extends Fragment {
             if (!qis[i].equals(winner)) {
                 result.append("\nИгрок номер ").append(qis[i].realNumber).append(qis[i].lost ? " проиграл" : (qis[i].overallScore == winner.overallScore ? " победил" : "")).append(":");
                 result.append(" Счёт: ").append(qis[i].overallScore).append(" очков.");
-                if(!qis[i].lost) {
+                if (!qis[i].lost) {
                     result.append("\nПравильных ответов: ").append(qis[i].actualQuestions.size() - qis[i].wrongAnswers).append(" из ").append(qis[i].actualQuestions.size());
-                }
-                else {
+                } else {
                     result.append("\nПравильных ответов: ").append(qis[i].trueAnswers).append(" из ").append(qis[i].actualQuestions.size());
                 }
             }
@@ -393,15 +384,12 @@ public class MyFragment extends Fragment {
         currentPlayer++;
         try {
             qis[currentPlayer].check();
-        }
-        catch (IndexOutOfBoundsException e){
-            currentPlayer=0;
-        }
-        finally {
+        } catch (IndexOutOfBoundsException e) {
+            currentPlayer = 0;
+        } finally {
             try {
                 checkIfLost();
-            }
-            catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 nextPlayer();
             }
         }
@@ -426,13 +414,13 @@ public class MyFragment extends Fragment {
         }
         return winner;
     }
-    private void checkIfLost(){
-        if(qis[currentPlayer].lost){
+
+    private void checkIfLost() {
+        if (qis[currentPlayer].lost) {
             currentPlayer++;
         }
         qis[currentPlayer].check();
     }
-
 
 
 }

@@ -23,6 +23,8 @@ public class QuestionEntity {
 
     public static final String LIST_OF_OPTIONS="Options";
 
+    public static final String TRUE_ANSWER="True_answer";
+
 //    private static final String IS_TORF="Is_torf";
 
     @PrimaryKey
@@ -39,11 +41,16 @@ public class QuestionEntity {
     @ColumnInfo(name = LIST_OF_OPTIONS)
     private final ArrayList<String> options;
 
-    public QuestionEntity(@NonNull Integer id, String question, Integer difficulty, ArrayList<String> options) {
+    @ColumnInfo(name = TRUE_ANSWER)
+    private final String trueAnswer;
+
+
+    public QuestionEntity(@NonNull Integer id, String question, Integer difficulty, ArrayList<String> options, String trueAnswer) {
         this.id = id;
         this.question = question;
         this.difficulty = difficulty;
         this.options = options;
+        this.trueAnswer = trueAnswer;
     }
 
     public String getQuestion() {
@@ -61,5 +68,9 @@ public class QuestionEntity {
     @NonNull
     public Integer getId() {
         return id;
+    }
+
+    public String getTrueAnswer() {
+        return trueAnswer;
     }
 }

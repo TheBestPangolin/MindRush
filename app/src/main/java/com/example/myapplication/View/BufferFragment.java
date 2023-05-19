@@ -65,9 +65,10 @@ public class BufferFragment extends Fragment {
         });
     }
 
+
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+    public void onDetach() {
+        super.onDetach();
         if(created) {
             et.getText().clear();
         }

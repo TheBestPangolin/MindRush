@@ -13,6 +13,7 @@ import com.example.myapplication.AppStart;
 import com.example.myapplication.BufferClass;
 import com.example.myapplication.R;
 import com.example.myapplication.database.Repostitory.Usecases.CountBE;
+import com.example.myapplication.database.Repostitory.Usecases.GetAllQ;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,26 +28,31 @@ public class MainActivity extends AppCompatActivity {
     public static Main_Menu_Fragment main_menu_fragment=new Main_Menu_Fragment();
     @SuppressLint("StaticFieldLeak")
     public static AnsweredFragment answeredFragment=new AnsweredFragment();
+    @SuppressLint("StaticFieldLeak")
     public static BufferFragment bufferFragment=new BufferFragment();
+//    public static LoadingFragment loadingFragment=new LoadingFragment();
     public static boolean isLaunched=false;
 //    CountBE countBE=AppStart.getInstance().getCountBE();
-
+    GetAllQ getAllQ=AppStart.getInstance().getGetAllQ();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fileOpener();
+        Log.d("Database_tag", String.valueOf(getAllQ.getAll()));
+        if (getAllQ.getAll().size() == 0) {
+            fileOpener();
+        }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main,main_menu_fragment)
+                    .add(R.id.main, main_menu_fragment)
                     .commitNow();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main,answeredFragment)
+                    .add(R.id.main, answeredFragment)
                     .detach(answeredFragment)
-                    .add(R.id.main,bufferFragment)
+                    .add(R.id.main, bufferFragment)
                     .detach(bufferFragment)
                     .commitNow();
         }
@@ -93,11 +99,13 @@ public class MainActivity extends AppCompatActivity {
                     BufferClass.addString(readline);
                 }
                 br.close();
+                BufferClass.fileIsOpened();
             } catch (IOException e) {
                 Log.d("da b", "why");
             }
 
     }
+
 
 
 

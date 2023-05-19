@@ -39,7 +39,7 @@ public class MyTimer {
                 tempTime--;
                 fragment.getActivity().runOnUiThread(() -> fragment.setupTimerText(tempTime));
                 if (tempTime==0){
-                    stopWork();
+                    fragment.getActivity().runOnUiThread(() ->{fragment.nextQuestion(5);});
                 }
             }
         }

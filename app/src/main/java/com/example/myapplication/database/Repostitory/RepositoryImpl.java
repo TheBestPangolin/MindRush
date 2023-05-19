@@ -12,6 +12,7 @@ import com.example.myapplication.database.EntityMapper;
 import com.example.myapplication.database.MainDao;
 import com.example.myapplication.database.Entities.QuestionEntity;
 
+import java.nio.channels.AsynchronousByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -20,13 +21,14 @@ public class RepositoryImpl implements Repository {
     private final MainDao dao;
     private final ArrayList<Question> questionsList;
     private final ArrayList<ArrayList<Question>> difficultyOnlyQ;
+    private Question question;
 //    private final MutableLiveData<List<Boolean>> buffer;
 
 
     public RepositoryImpl(MainDao dao) {
         this.dao = dao;
         questionsList = new ArrayList<>();
-        difficultyOnlyQ=new ArrayList<>();
+        difficultyOnlyQ = new ArrayList<>();
 //        buffer = new MutableLiveData<>();
         updateQuestionList();
     }
@@ -52,41 +54,23 @@ public class RepositoryImpl implements Repository {
         return difficultyOnlyQ.get(diff);
     }
 
-//    @Override
-//    public void addBufferEntity(BufferEntity be) {
-//        AsyncTask.execute(() -> {
-//            synchronized (dao) {
-//                dao.addBufferEntity(be);
-//            }
-//        });
-//        updateBuffer();
-//    }
-//
-//    @Override
-//    public void deleteBufferEntity(Boolean b) {
-//        AsyncTask.execute(() -> {
-//            synchronized (dao) {
-//                dao.deleteBufferEntity(b);
-//            }
-//        });
-//        updateBuffer();
-//    }
-//
-//    @Override
-//    public MutableLiveData<List<Boolean>> getIs_empty() {
-//        return buffer;
-//    }
-//
-//    @Override
-//    public MutableLiveData<Integer> countBE() {
-//        MutableLiveData<Integer> i = new MutableLiveData<>();
-//        AsyncTask.execute(() -> {
-//            synchronized (dao) {
-//                i.postValue(dao.countBE());
-//            }
-//        });
-//        return i;
-//    }
+    public void findByID(Integer ID) {
+        AsyncTask.execute(() -> {
+            synchronized (dao) {
+                question = EntityMapper.toQuestion(dao.getByIndex(ID));
+            }
+        });
+    }
+
+    @Override
+    public Question getByID(Integer index) {
+        findByID(index);
+        while (question == null) {
+
+        }
+        return question;
+    }
+
 
     private void updateQuestionList() {
         AsyncTask.execute(() -> {
@@ -104,20 +88,21 @@ public class RepositoryImpl implements Repository {
                 }
             }
         });
-
+//        int temp = 0;
+//        for (int i = 0; i < BufferClass.getDifficultyCount(); i++) {
+//            ArrayList<Question> tempList = new ArrayList<>();
+//            for (int j = temp; j < questionsList.size(); j++) {
+//                if (questionsList.get(j).getDifficulty()==i){
+//                    tempList.add(questionsList.get(j));
+//                }
+//                else {
+//                    temp=j;
+//                    break;
+//                }
+//            }
+//            difficultyOnlyQ.add(tempList);
+//        }
     }
 
-//    private void updateBuffer() {
-//        AsyncTask.execute(() -> {
-//            synchronized (dao){
-//                List<BufferEntity> temp=dao.getIs_empty();
-//                List<Boolean> b=new ArrayList<>();
-//                for (int i = 0; i < temp.size(); i++) {
-//                    b.add(temp.get(i).getIs_empty());
-//                }
-//                buffer.postValue(b);
-//
-//            }
-//        });
-//    }
+
 }

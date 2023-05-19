@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.util.Log;
 
+import com.example.myapplication.View.MainActivity;
 import com.example.myapplication.database.Entities.BufferEntity;
 import com.example.myapplication.database.Repostitory.Usecases.AddNewQ;
 import com.example.myapplication.database.Repostitory.Usecases.Add_BufferEntity;
@@ -26,16 +27,8 @@ public class Database_Init {
     static AddNewQ addNewQ = AppStart.getInstance().getAddNewQ();
 
     public static void Init_Database() {
-//        if (countBE == null || countBE.countBE().getValue() == 0) {
-//        try {
-//            if(getIs_empty.getIs_empty().getValue().get(0)){
-//                boolean b=getIs_empty.getIs_empty().getValue().get(0);
-//            }
-//        } catch (NullPointerException e) {
-//            addBE.addBufferEntity(new BufferEntity(0, true));
-//        } finally {
-//            if (getIs_empty.getIs_empty().getValue().get(0)) {
         if(getAllQ.getAll().size()==0) {
+            Log.d("Database_tag", "Beginning to fill");
             ArrayList<String> temp = new ArrayList<>();
             ArrayList<String> questions_temp = JsonPath.read(config, "$..question_title");
             ArrayList<Integer> diff_temp = JsonPath.read(config, "$..difficulty");
@@ -61,7 +54,8 @@ public class Database_Init {
                         options.get(i),
                         questions_temp.get(i),
                         diff_temp.get(i),
-                        i
+                        i,
+                        true_options.get(i)
                 ));
 
             }
@@ -77,6 +71,6 @@ public class Database_Init {
 //                Log.d("Database_tag","Everything is fine");
 //            }
 //        }
-        BufferClass.setQuestions();
+
     }
 }

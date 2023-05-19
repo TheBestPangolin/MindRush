@@ -2,6 +2,7 @@
 <resources>
     <color name="purple_200">#FFBB86FC</color>
     <color name="normal">#FFFFFDD0</color>
+    <color name="sand">#FFFFFAC0</color>
     <color name="buttons">#FF30BACF</color>
     <color name="green">#FF3CB371</color>
     <color name="wrong">#FFA04154</color>

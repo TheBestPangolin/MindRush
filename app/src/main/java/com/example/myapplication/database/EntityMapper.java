@@ -9,7 +9,8 @@ public class EntityMapper {
                 q.getIndex(),
                 q.getQuestion(),
                 q.getDifficulty(),
-                q.getOptions()
+                q.getOptions(),
+                q.getTrue_string()
         );
     }
     public static Question toQuestion(QuestionEntity qe){
@@ -17,7 +18,8 @@ public class EntityMapper {
                 qe.getOptions(),
                 qe.getQuestion(),
                 qe.getDifficulty(),
-                qe.getId()
+                qe.getId(),
+                qe.getTrueAnswer()
         );
     }
 }

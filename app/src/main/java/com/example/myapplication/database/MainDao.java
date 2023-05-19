@@ -21,16 +21,10 @@ public interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addNewQuestions(QuestionEntity question);
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = BufferEntity.class)
-//    void addBufferEntity(BufferEntity be);
-//
-//    @Query("Delete from Buffer where Is_empty =:b")
-//    void deleteBufferEntity(Boolean b);
-//
-//    @Query("select * from Buffer")
-//    List<BufferEntity> getIs_empty();
-//
-//    @Query("select count(Is_empty) from Buffer")
-//    Integer countBE();
+    @Query("Select * from Questions where ID=:index")
+    QuestionEntity getByIndex(Integer index);
+
+    @Query("delete from Questions")
+    void deleteAll();
 
 }

@@ -16,6 +16,8 @@ public interface Repository {
 
     ArrayList<Question> getAllQuestionsByDiffX(Integer diff);
 
+    Question getByID(Integer index);
+
 //    void addBufferEntity(BufferEntity be);
 //
 //    void deleteBufferEntity(Boolean b);

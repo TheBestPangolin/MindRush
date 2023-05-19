@@ -2,6 +2,10 @@ package com.example.myapplication.questions;
 
 import android.util.Log;
 
+import com.example.myapplication.AppStart;
+import com.example.myapplication.database.Repostitory.Usecases.GetAllQ;
+import com.example.myapplication.database.Repostitory.Usecases.GetByID;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,11 +14,13 @@ public class Question {
     public ArrayList<String> options;
     public String question;
     public Integer difficulty;
+    public String true_string;
     public int trueAnswer=1;
     public int index;
 
 
-    public Question(ArrayList<String> options, String question, Integer difficulty,Integer index) {
+    public Question(ArrayList<String> options, String question, Integer difficulty,Integer index, String true_answer) {
+        true_string=true_answer;
         this.index=index;
         this.options = options;
         this.question = question;
@@ -27,7 +33,14 @@ public class Question {
     }
 
     public int getTrueAnswer() {
-        return trueAnswer;
+        int temp=0;
+        for (int i = 0; i < options.size(); i++) {
+            if(options.get(i).equals(true_string)){
+                temp=i+1;
+                break;
+            }
+        }
+        return temp;
     }
 
     public int getIndex() {
@@ -38,12 +51,17 @@ public class Question {
         return options;
     }
 
+    public String getTrue_string() {
+        return true_string;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
                 "options=" + options +
                 ", question='" + question + '\'' +
                 ", difficulty=" + difficulty +
+                ", trueAnswer=" + trueAnswer +
                 ", index=" + index +
                 '}';
     }
@@ -57,7 +75,6 @@ public class Question {
     }
     public void mixOptions(){
         Log.d("Why?",(options)+"\n"+trueAnswer);
-        this.trueAnswer=1;
         ArrayList<String> temp = options;
         if (options.size() == 2) {
             this.options = new ArrayList<>();
@@ -70,16 +87,10 @@ public class Question {
             }
         }
         else {
-            String tempTrue=options.get(0);
             Collections.shuffle(options);
-            for (int i = 0; i < options.size(); i++) {
-                if(options.get(i).equals(tempTrue)){
-                    trueAnswer=i+1;
-                    break;
-                }
-            }
+
         }
     }
-
+    //TODO Вернуть буффер Энтити, в ней хранить информацию о версиях. Если версия не совпадает, значит пересоздаём таблицу.
 
 }

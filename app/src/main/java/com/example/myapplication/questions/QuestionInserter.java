@@ -41,20 +41,23 @@ public class QuestionInserter {
 
     private void what(int diff) {
         if (bufferList.size() != 0) {
-            bufferList.clear();
+            bufferList=new ArrayList<>();
         }
 //        bufferList.addAll(temp);
-        AsyncTask.execute(() -> {
+        Log.d("WTF-code", String.valueOf(getAllQ.getAllByDiffX(diff)));
             bufferList.addAll(getAllQ.getAllByDiffX(diff));
-            for (Question q : bufferList) {
-                q.mixOptions();
-            }
-        });
+
         Log.d("WTF-temp", String.valueOf(bufferList));
     }
 
     private void what2(int diff) {
         what(diff);
+        try{
+            Question q=bufferList.get(0);
+        }
+        catch (IndexOutOfBoundsException e){
+            what(diff);
+        }
         for (int i = 0; i < BufferClass.getX(diff); i++) {
             int y = BufferClass.random(0, bufferList.size() - 1);
             while (actualQuestions.contains(bufferList.get(y))) {
@@ -62,10 +65,14 @@ public class QuestionInserter {
             }
             actualQuestions.add(bufferList.get(y));
         }
+        for (Question q : actualQuestions) {
+            q.mixOptions();
+        }
         Log.d("diff", String.valueOf(actualQuestions));
         if (diff < difficultyCount - 1) {
             what2(diff + 1);
         }
+
     }
 
     public Integer getLives() {

@@ -8,17 +8,17 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         tableName = BufferEntity.NAME,
-        indices = {@Index(BufferEntity.ID)}
+        indices = {@Index(BufferEntity.VERSION)}
 )
 public class BufferEntity {
     static final String NAME="Buffer";
     static final String IS_EMPTY="Is_empty";
 
-    static final String ID="ID";
+    static final String VERSION="ID";
 
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name = ID)
+    @ColumnInfo(name = VERSION)
     private final Integer id;
 
     @ColumnInfo(name = IS_EMPTY)
